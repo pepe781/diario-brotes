@@ -6,18 +6,27 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   try {
     const { systemPrompt, messages } = req.body;
-    const body = {
-      system_instruction: { parts: [{ text: systemPrompt }] },
-      contents: messages,
-      generationConfig: { temperature: 0.85, maxOutputTokens: 800 }
-    };
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-    );
+    const claudeMessages = messages.map(m => ({
+      role: m.role === 'model' ? 'assistant' : 'user',
+      content: m.parts[0].text
+    }));
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        system: systemPrompt,
+        messages: claudeMessages
+      })
+    });
     const data = await response.json();
     if (data.error) return res.status(500).json({ error: data.error.message });
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'El Lama guarda silencio.';
+    const text = data.content?.[0]?.text || 'El Lama guarda silencio.';
     res.status(200).json({ text });
   } catch (e) {
     res.status(500).json({ error: e.message });

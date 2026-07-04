@@ -5,21 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0D0F14">
-<title>Diario de Brotes</title>
+<meta name="theme-color" content="#080A0F">
+<title>Diario · Tenzin Dorje</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
-  --night:#0D0F14;--surface:#1A1D26;--card:#20243A;
-  --sage:#A8C5A0;--earth:#C9A96E;--calm:#8BA7C7;
-  --parchment:#E8E4DC;--muted:#6B6E80;--faint:#2A2E40;
+  --void:#080A0F;
+  --deep:#0F1219;
+  --surface:#161B26;
+  --card:#1C2230;
+  --border:#252B3B;
+  --gold:#C9A45C;
+  --gold-dim:#8B6E3A;
+  --jade:#6FA882;
+  --jade-dim:#3D6B51;
+  --mist:#7A92B0;
+  --mist-dim:#3D5066;
+  --ink:#D8D4CC;
+  --ghost:#5A5E70;
+  --incense:#A07BC9;
+  --phase1:#6FA882;
+  --phase2:#7A92B0;
+  --phase3:#C9A45C;
+  --phase4:#A07BC9;
   --nav-h:68px;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
 }
-html,body{height:100%;overflow:hidden;background:var(--night);}
-body{font-family:'Inter',sans-serif;color:var(--parchment);}
+html,body{height:100%;overflow:hidden;background:var(--void);}
+body{font-family:'Inter',sans-serif;color:var(--ink);}
 
 /* LAYOUT */
 .screen{display:none;flex-direction:column;height:100vh;height:100dvh;}
@@ -27,163 +42,399 @@ body{font-family:'Inter',sans-serif;color:var(--parchment);}
 .scroll-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 24px;}
 .scroll-body::-webkit-scrollbar{display:none;}
 
-/* BOTTOM NAV */
+/* NAV */
 .bottom-nav{
   display:flex;align-items:center;justify-content:space-around;
-  background:var(--surface);border-top:0.5px solid var(--faint);
+  background:var(--deep);border-top:0.5px solid var(--border);
   height:calc(var(--nav-h) + var(--safe-bottom));
-  padding-bottom:var(--safe-bottom);
-  flex-shrink:0;
+  padding-bottom:var(--safe-bottom);flex-shrink:0;
 }
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 20px;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;min-width:60px;}
-.nav-item.active{color:var(--sage);}
-.nav-icon{font-size:20px;line-height:1;}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 16px;cursor:pointer;border:none;background:none;color:var(--ghost);font-family:'Inter',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;min-width:56px;}
+.nav-item.active{color:var(--gold);}
+.nav-icon{font-size:18px;line-height:1;}
 
-/* SECTION HEADER */
-.page-header{padding:28px 0 20px;border-bottom:0.5px solid var(--faint);margin-bottom:20px;}
-.page-header .logo-orbs{display:flex;justify-content:center;gap:10px;margin-bottom:16px;}
-.orb{border-radius:50%;transition:all 0.4s ease;}
-.orb.mente{background:var(--calm);width:10px;height:10px;}
-.orb.emocion{background:var(--sage);width:10px;height:10px;}
-.orb.cuerpo{background:var(--earth);width:10px;height:10px;}
-.page-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;text-align:center;color:var(--parchment);}
-.page-subtitle{font-size:10px;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;text-align:center;margin-top:5px;}
+/* PAGE HEADER */
+.page-header{padding:32px 0 22px;border-bottom:0.5px solid var(--border);margin-bottom:22px;text-align:center;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--ink);}
+.page-title em{font-style:italic;color:var(--gold);}
+.page-sub{font-size:10px;color:var(--ghost);letter-spacing:0.12em;text-transform:uppercase;margin-top:6px;}
+
+/* SECTION LABEL */
+.slabel{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ghost);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.slabel::after{content:'';flex:1;height:0.5px;background:var(--border);}
+
+/* FASE BADGE */
+.fase-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;border:0.5px solid var(--border);background:var(--surface);font-size:11px;color:var(--ghost);margin-bottom:20px;}
+.fase-dot{width:7px;height:7px;border-radius:50%;}
 
 /* DATE BAR */
-.date-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;background:var(--surface);border-radius:12px;padding:12px 14px;}
-.date-info .date-label{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;}
-.date-info .streak{font-size:10px;color:var(--sage);letter-spacing:0.08em;margin-top:3px;}
+.date-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;background:var(--surface);border-radius:14px;padding:14px 16px;border:0.5px solid var(--border);}
+.date-info .date-label{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;color:var(--ink);}
+.date-info .streak{font-size:10px;color:var(--gold);letter-spacing:0.08em;margin-top:3px;}
 .date-arrows{display:flex;gap:8px;}
-.arr-btn{background:none;border:0.5px solid var(--faint);color:var(--muted);cursor:pointer;width:34px;height:34px;border-radius:8px;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
-.arr-btn:active{background:var(--faint);transform:scale(0.93);}
+.arr-btn{background:none;border:0.5px solid var(--border);color:var(--ghost);cursor:pointer;width:34px;height:34px;border-radius:8px;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.arr-btn:active{background:var(--border);}
 
 /* TRIADA */
-.section-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.triada{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
-.triada-card{background:var(--surface);border:0.5px solid var(--faint);border-radius:12px;padding:14px 10px;text-align:center;}
-.triada-card.mente{border-top:2px solid var(--calm);}
-.triada-card.emocion{border-top:2px solid var(--sage);}
-.triada-card.cuerpo{border-top:2px solid var(--earth);}
-.triada-icon{font-size:18px;margin-bottom:6px;}
-.triada-lbl{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.triada-val{font-size:22px;font-family:'Playfair Display',serif;margin-bottom:8px;}
-.mente .triada-val{color:var(--calm);}
-.emocion .triada-val{color:var(--sage);}
-.cuerpo .triada-val{color:var(--earth);}
-.triada-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:var(--faint);outline:none;}
-.triada-card.mente .triada-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--calm);cursor:pointer;}
-.triada-card.emocion .triada-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--sage);cursor:pointer;}
-.triada-card.cuerpo .triada-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--earth);cursor:pointer;}
+.triada{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+.triada-card{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;}
+.triada-card.mente{border-top:2px solid var(--mist);}
+.triada-card.emocion{border-top:2px solid var(--jade);}
+.triada-card.cuerpo{border-top:2px solid var(--gold);}
+.triada-icon{font-size:16px;margin-bottom:6px;}
+.triada-lbl{font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ghost);margin-bottom:8px;}
+.triada-val{font-size:24px;font-family:'Cormorant Garamond',serif;font-weight:300;margin-bottom:10px;}
+.mente .triada-val{color:var(--mist);}
+.emocion .triada-val{color:var(--jade);}
+.cuerpo .triada-val{color:var(--gold);}
+.triada-slider{width:100%;-webkit-appearance:none;appearance:none;height:3px;border-radius:2px;background:var(--border);outline:none;}
+.triada-card.mente .triada-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--mist);cursor:pointer;}
+.triada-card.emocion .triada-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--jade);cursor:pointer;}
+.triada-card.cuerpo .triada-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;}
+
+/* RUTINA */
+.rutina-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px;}
+.rutina-item{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.15s;user-select:none;}
+.rutina-item.done{background:rgba(201,164,92,0.08);border-color:var(--gold-dim);}
+.rutina-icon{font-size:18px;flex-shrink:0;}
+.rutina-text{font-size:12px;color:var(--ghost);flex:1;line-height:1.4;}
+.rutina-item.done .rutina-text{color:var(--gold);}
+.rutina-check{width:22px;height:22px;border-radius:50%;border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;flex-shrink:0;transition:all 0.2s;}
+.rutina-item.done .rutina-check{background:var(--gold);border-color:var(--gold);color:var(--void);}
+
+/* LIBRO */
+.libro-card{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:22px;}
+.libro-selector{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.libro-opt{font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border);color:var(--ghost);cursor:pointer;background:transparent;font-family:'Inter',sans-serif;transition:all 0.15s;}
+.libro-opt.active{border-color:var(--gold-dim);color:var(--gold);background:rgba(201,164,92,0.08);}
+.libro-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.libro-spine{width:4px;height:48px;border-radius:2px;background:var(--gold);flex-shrink:0;}
+.libro-titulo{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink);}
+.libro-autor{font-size:11px;color:var(--ghost);margin-top:3px;}
+.libro-progress-bg{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.libro-progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.4s;}
+.libro-nota{width:100%;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--ghost);margin-top:10px;border-top:0.5px solid var(--border);padding-top:10px;resize:none;min-height:48px;}
+.libro-nota::placeholder{color:var(--border);}
+
+/* PREGUNTA */
+.pregunta-card{background:var(--card);border:0.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:22px;position:relative;overflow:hidden;}
+.pregunta-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--jade));}
+.pregunta-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ghost);margin-bottom:10px;}
+.pregunta-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;font-style:italic;color:var(--ink);line-height:1.5;margin-bottom:14px;}
+.pregunta-area{width:100%;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--ink);line-height:1.75;resize:none;min-height:90px;}
+.pregunta-area::placeholder{color:var(--ghost);font-style:italic;}
+
+/* SOMBRA */
+.sombra-card{background:var(--surface);border:0.5px solid var(--border);border-left:2px solid var(--mist-dim);border-radius:14px;padding:16px;margin-bottom:22px;}
+.sombra-desc{font-size:11px;color:var(--ghost);line-height:1.6;margin-bottom:12px;}
+.sombra-area{width:100%;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink);line-height:1.75;resize:none;min-height:70px;}
+.sombra-area::placeholder{color:var(--ghost);font-style:italic;}
 
 /* TAGS */
-.emotion-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}
-.tag{font-size:12px;padding:7px 14px;border-radius:20px;border:0.5px solid var(--faint);color:var(--muted);cursor:pointer;transition:all 0.15s;background:transparent;user-select:none;}
-.tag:active{transform:scale(0.95);}
-.tag.active.s{background:rgba(139,167,199,0.18);border-color:var(--calm);color:var(--calm);}
-.tag.active.e{background:rgba(168,197,160,0.18);border-color:var(--sage);color:var(--sage);}
-.tag.active.f{background:rgba(201,169,110,0.18);border-color:var(--earth);color:var(--earth);}
+.emotion-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px;}
+.tag{font-size:11px;padding:6px 13px;border-radius:20px;border:0.5px solid var(--border);color:var(--ghost);cursor:pointer;transition:all 0.15s;background:transparent;user-select:none;}
+.tag.active.s{background:rgba(122,146,176,0.15);border-color:var(--mist);color:var(--mist);}
+.tag.active.e{background:rgba(111,168,130,0.15);border-color:var(--jade);color:var(--jade);}
+.tag.active.f{background:rgba(201,164,92,0.15);border-color:var(--gold);color:var(--gold);}
+.tag.active.x{background:rgba(160,123,201,0.15);border-color:var(--incense);color:var(--incense);}
 
-/* WRITE */
-.entry-area{width:100%;background:var(--surface);border:0.5px solid var(--faint);border-radius:12px;color:var(--parchment);font-family:'Playfair Display',serif;font-size:16px;line-height:1.85;padding:16px;resize:none;min-height:160px;outline:none;transition:border 0.2s;}
-.entry-area::placeholder{color:var(--muted);font-style:italic;}
-.entry-area:focus{border-color:var(--sage);}
-.word-count{font-size:10px;color:var(--muted);text-align:right;margin-top:6px;}
+/* ENTRY */
+.entry-area{width:100%;background:var(--surface);border:0.5px solid var(--border);border-radius:14px;color:var(--ink);font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.9;padding:18px;resize:none;min-height:140px;outline:none;transition:border 0.2s;}
+.entry-area::placeholder{color:var(--ghost);font-style:italic;}
+.entry-area:focus{border-color:var(--gold-dim);}
+.word-count{font-family:'Space Mono',monospace;font-size:9px;color:var(--ghost);text-align:right;margin-top:6px;}
 
-/* INTENTIONS */
-.intentions{background:var(--surface);border:0.5px solid var(--faint);border-radius:12px;padding:16px;margin-top:16px;margin-bottom:16px;}
-.int-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--faint);}
+/* SEMILLAS */
+.semillas{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:16px;margin-top:18px;margin-bottom:18px;}
+.int-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:0.5px solid var(--border);}
 .int-row:last-child{border-bottom:none;}
-.int-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.int-text{font-size:14px;color:var(--parchment);flex:1;background:none;border:none;outline:none;font-family:'Inter',sans-serif;}
-.int-text::placeholder{color:var(--muted);}
-.int-check{width:26px;height:26px;border-radius:50%;border:0.5px solid var(--faint);cursor:pointer;background:none;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:transparent;transition:all 0.2s;font-size:13px;}
-.int-check:active{transform:scale(0.9);}
-.int-check.done{background:var(--sage);border-color:var(--sage);color:#0D0F14;}
+.int-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.int-text{font-size:14px;color:var(--ink);flex:1;background:none;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-style:italic;}
+.int-text::placeholder{color:var(--ghost);}
+.int-check{width:26px;height:26px;border-radius:50%;border:0.5px solid var(--border);cursor:pointer;background:none;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:transparent;transition:all 0.2s;font-size:12px;}
+.int-check.done{background:var(--jade);border-color:var(--jade);color:var(--void);}
 
-/* SAVE */
-.save-btn{width:100%;padding:16px;border-radius:12px;border:none;background:var(--sage);color:#0D0F14;font-family:'Inter',sans-serif;font-weight:500;font-size:14px;letter-spacing:0.08em;cursor:pointer;transition:all 0.15s;margin-top:4px;}
+/* BUTTONS */
+.save-btn{width:100%;padding:16px;border-radius:14px;border:none;background:var(--gold);color:var(--void);font-family:'Inter',sans-serif;font-weight:500;font-size:13px;letter-spacing:0.1em;cursor:pointer;transition:all 0.15s;margin-top:4px;text-transform:uppercase;}
 .save-btn:active{opacity:0.8;transform:scale(0.98);}
-.export-btn{width:100%;padding:13px;border-radius:12px;border:0.5px solid var(--faint);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;margin-top:10px;}
-.export-btn:active{border-color:var(--earth);color:var(--earth);}
+.export-btn{width:100%;padding:13px;border-radius:14px;border:0.5px solid var(--border);background:transparent;color:var(--ghost);font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.2s;margin-top:10px;letter-spacing:0.06em;}
+.export-btn:active{border-color:var(--gold-dim);color:var(--gold);}
 
-/* ENTRIES LIST */
-.entry-pill{background:var(--surface);border:0.5px solid var(--faint);border-radius:12px;padding:16px;margin-bottom:10px;cursor:pointer;transition:background 0.15s;}
-.entry-pill:active{background:var(--card);}
-.ep-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.ep-date{font-size:11px;color:var(--muted);}
-.ep-orbs{display:flex;gap:5px;align-items:center;}
-.ep-orb{border-radius:50%;opacity:0.85;}
-.ep-preview{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--muted);line-height:1.65;}
-.ep-tags{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
-.ep-tag{font-size:10px;padding:3px 8px;border-radius:10px;border:0.5px solid var(--faint);color:var(--muted);}
-.empty-state{text-align:center;padding:48px 24px;color:var(--muted);}
-.empty-state .es-icon{font-size:36px;margin-bottom:12px;}
-.empty-state p{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;line-height:1.7;}
+/* ENTRIES */
+.entry-pill{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px;cursor:pointer;}
+.ep-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.ep-date{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--ghost);}
+.ep-fase{font-size:9px;padding:3px 8px;border-radius:10px;border:0.5px solid var(--border);color:var(--ghost);}
+.ep-preview{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--ghost);line-height:1.65;}
+.ep-tags{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap;}
+.ep-tag{font-size:10px;padding:3px 8px;border-radius:10px;border:0.5px solid var(--border);color:var(--ghost);}
+.ep-triada{display:flex;gap:10px;margin-top:10px;}
+.ep-t-item{font-size:10px;color:var(--ghost);}
+.empty-state{text-align:center;padding:56px 24px;color:var(--ghost);}
+.empty-state .es-icon{font-size:32px;margin-bottom:14px;opacity:0.6;}
+.empty-state p{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;line-height:1.7;}
 
-/* STATS */
+/* PROCESO */
+.proceso-hero{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:22px;margin-bottom:20px;text-align:center;}
+.kensho-quote{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:var(--ink);line-height:1.6;margin-bottom:12px;}
+.kensho-author{font-family:'Space Mono',monospace;font-size:9px;color:var(--ghost);letter-spacing:0.12em;}
+.fase-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px;padding:14px;background:var(--surface);border:0.5px solid var(--border);border-radius:12px;cursor:pointer;}
+.fase-row.current{border-color:var(--gold-dim);background:rgba(201,164,92,0.06);}
+.fase-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--ghost);flex-shrink:0;margin-top:2px;width:20px;}
+.fase-name{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink);margin-bottom:4px;}
+.fase-row.current .fase-name{color:var(--gold);}
+.fase-desc{font-size:11px;color:var(--ghost);line-height:1.5;}
+.fase-current-mark{font-size:10px;color:var(--gold);font-family:'Space Mono',monospace;}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-.stat-card{background:var(--surface);border:0.5px solid var(--faint);border-radius:12px;padding:16px;}
-.stat-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.stat-val{font-family:'Playfair Display',serif;font-size:26px;color:var(--parchment);}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:4px;}
-.mini-bar-wrap{margin-top:16px;}
+.stat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;}
+.stat-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ghost);margin-bottom:8px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--ink);}
+.stat-sub{font-size:10px;color:var(--ghost);margin-top:4px;}
+.mini-bar-wrap{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:20px;}
 .mini-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.mini-bar-label{font-size:11px;color:var(--muted);width:52px;flex-shrink:0;}
-.mini-bar-bg{flex:1;height:6px;background:var(--faint);border-radius:3px;overflow:hidden;}
-.mini-bar-fill{height:100%;border-radius:3px;transition:width 0.6s ease;}
-.mini-bar-num{font-size:11px;color:var(--parchment);width:24px;text-align:right;flex-shrink:0;}
+.mini-bar-row:last-child{margin-bottom:0;}
+.mini-bar-label{font-size:11px;color:var(--ghost);width:60px;flex-shrink:0;}
+.mini-bar-bg{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.mini-bar-fill{height:100%;border-radius:2px;transition:width 0.6s;}
+.mini-bar-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--ink);width:22px;text-align:right;flex-shrink:0;}
+
+/* HITOS */
+.hito-add-form{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;}
+.hito-input{width:100%;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--ink);margin-bottom:10px;}
+.hito-input::placeholder{color:var(--ghost);}
+.hito-add-btn{font-size:12px;padding:8px 18px;border-radius:8px;border:0.5px solid var(--gold-dim);background:none;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;}
+.hito-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--border);}
+.hito-item:last-child{border-bottom:none;}
+.hito-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;}
+.hito-fecha{font-family:'Space Mono',monospace;font-size:9px;color:var(--ghost);flex-shrink:0;}
+.hito-texto{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink);line-height:1.5;flex:1;}
+
+/* ═══════════════════════════════════════════
+   PANTALLA TENZIN DORJE — ESPACIO SAGRADO
+═══════════════════════════════════════════ */
+#screen-tenzin{background:var(--void);}
+
+.tenzin-portal{
+  flex:1;display:flex;flex-direction:column;
+  overflow:hidden;position:relative;
+}
+
+/* Fondo de mandala sutil */
+.tenzin-portal::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 30%, rgba(160,123,201,0.06) 0%, transparent 70%),
+             radial-gradient(ellipse at 50% 80%, rgba(201,164,92,0.04) 0%, transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+.tenzin-header{
+  padding:28px 20px 16px;text-align:center;
+  border-bottom:0.5px solid var(--border);
+  position:relative;z-index:1;flex-shrink:0;
+}
+.tenzin-symbol{
+  font-size:22px;margin-bottom:8px;
+  animation:breathe 4s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{opacity:0.6;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.08);}
+}
+.tenzin-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;font-weight:300;letter-spacing:0.2em;
+  color:var(--ghost);text-transform:uppercase;
+}
+.tenzin-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;font-style:italic;
+  color:var(--ghost);opacity:0.6;margin-top:2px;
+}
+
+/* Modo selector */
+.tenzin-mode-bar{
+  display:flex;gap:0;flex-shrink:0;
+  border-bottom:0.5px solid var(--border);
+  position:relative;z-index:1;
+}
+.tenzin-mode-btn{
+  flex:1;padding:12px 8px;border:none;background:none;
+  color:var(--ghost);font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.1em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;
+}
+.tenzin-mode-btn.active{color:var(--incense);border-bottom-color:var(--incense);}
+
+/* Área de análisis */
+.tenzin-analysis-area{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:20px;position:relative;z-index:1;
+}
+.tenzin-analysis-area::-webkit-scrollbar{display:none;}
+
+/* Estado inicial / bienvenida */
+.tenzin-welcome{
+  text-align:center;padding:32px 16px;
+}
+.tenzin-welcome-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-style:italic;font-weight:300;
+  color:var(--ghost);line-height:1.8;
+}
+.tenzin-welcome-sub{
+  font-size:11px;color:var(--ghost);opacity:0.5;
+  margin-top:16px;line-height:1.7;
+}
+
+/* Botón análisis */
+.tenzin-analyze-btn{
+  width:100%;padding:16px;border-radius:14px;
+  border:0.5px solid var(--incense);
+  background:rgba(160,123,201,0.08);
+  color:var(--incense);font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-style:italic;
+  cursor:pointer;transition:all 0.2s;margin-top:16px;
+  letter-spacing:0.04em;
+}
+.tenzin-analyze-btn:active{background:rgba(160,123,201,0.16);}
+.tenzin-analyze-btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* Respuesta del maestro */
+.tenzin-response{
+  background:rgba(160,123,201,0.04);
+  border:0.5px solid rgba(160,123,201,0.2);
+  border-radius:14px;padding:20px;margin-top:16px;
+}
+.tenzin-response-label{
+  font-family:'Space Mono',monospace;font-size:8px;
+  letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--incense);opacity:0.7;margin-bottom:14px;
+}
+.tenzin-response-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;line-height:1.85;color:var(--ink);
+  white-space:pre-wrap;
+}
+.tenzin-cierre{
+  margin-top:20px;padding-top:16px;
+  border-top:0.5px solid var(--border);
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;font-style:italic;
+  color:var(--incense);text-align:center;
+  line-height:1.7;
+}
+
+/* CONVERSACIÓN EN VIVO */
+.tenzin-chat{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:16px;display:flex;flex-direction:column;gap:12px;
+  position:relative;z-index:1;
+}
+.tenzin-chat::-webkit-scrollbar{display:none;}
+
+.chat-bubble{
+  max-width:85%;border-radius:14px;padding:14px 16px;
+  font-family:'Cormorant Garamond',serif;font-size:15px;
+  line-height:1.75;
+}
+.chat-bubble.user{
+  align-self:flex-end;
+  background:rgba(201,164,92,0.12);
+  border:0.5px solid rgba(201,164,92,0.25);
+  color:var(--ink);border-bottom-right-radius:4px;
+}
+.chat-bubble.tenzin{
+  align-self:flex-start;
+  background:rgba(160,123,201,0.08);
+  border:0.5px solid rgba(160,123,201,0.2);
+  color:var(--ink);border-bottom-left-radius:4px;
+}
+.chat-bubble.tenzin .bubble-name{
+  font-family:'Space Mono',monospace;font-size:8px;
+  letter-spacing:0.12em;color:var(--incense);
+  margin-bottom:8px;text-transform:uppercase;
+}
+.chat-bubble.thinking{
+  align-self:flex-start;
+  background:rgba(160,123,201,0.04);
+  border:0.5px solid rgba(160,123,201,0.1);
+  color:var(--ghost);font-style:italic;font-size:13px;
+}
+.typing-dots span{
+  display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--incense);margin:0 2px;opacity:0.4;
+  animation:dot-pulse 1.2s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:0.2s;}
+.typing-dots span:nth-child(3){animation-delay:0.4s;}
+@keyframes dot-pulse{0%,80%,100%{opacity:0.4;transform:scale(1);}40%{opacity:1;transform:scale(1.2);}}
+
+/* Input de chat */
+.tenzin-input-bar{
+  display:flex;gap:10px;align-items:flex-end;
+  padding:12px 16px calc(12px + var(--safe-bottom));
+  border-top:0.5px solid var(--border);
+  background:var(--deep);flex-shrink:0;
+  position:relative;z-index:1;
+}
+.tenzin-input{
+  flex:1;background:var(--surface);border:0.5px solid var(--border);
+  border-radius:20px;padding:12px 16px;
+  color:var(--ink);font-family:'Cormorant Garamond',serif;
+  font-size:15px;outline:none;resize:none;
+  max-height:100px;line-height:1.5;
+  font-style:italic;
+}
+.tenzin-input::placeholder{color:var(--ghost);}
+.tenzin-send{
+  width:42px;height:42px;border-radius:50%;
+  border:none;background:var(--incense);
+  color:var(--void);font-size:16px;cursor:pointer;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.tenzin-send:active{transform:scale(0.9);}
+.tenzin-send:disabled{background:var(--border);cursor:not-allowed;}
+
+/* Sin entradas warning */
+.tenzin-no-entries{
+  background:rgba(201,164,92,0.06);border:0.5px solid var(--gold-dim);
+  border-radius:12px;padding:16px;margin-top:12px;
+  font-size:12px;color:var(--ghost);line-height:1.7;text-align:center;
+}
 
 /* TOAST */
-.toast{position:fixed;bottom:calc(var(--nav-h) + var(--safe-bottom) + 16px);left:50%;transform:translateX(-50%) translateY(60px);background:var(--sage);color:#0D0F14;padding:11px 24px;border-radius:24px;font-size:13px;font-weight:500;transition:transform 0.3s ease;z-index:200;white-space:nowrap;font-family:'Inter',sans-serif;}
+.toast{position:fixed;bottom:calc(var(--nav-h) + var(--safe-bottom) + 16px);left:50%;transform:translateX(-50%) translateY(60px);background:var(--gold);color:var(--void);padding:11px 24px;border-radius:24px;font-size:12px;font-weight:500;transition:transform 0.3s;z-index:200;white-space:nowrap;font-family:'Space Mono',monospace;letter-spacing:0.06em;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 
-/* PWA install banner */
-.install-banner{background:var(--card);border:0.5px solid var(--faint);border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
-.ib-text{flex:1;font-size:12px;color:var(--muted);line-height:1.5;}
-.ib-btn{font-size:11px;padding:7px 14px;border-radius:8px;border:0.5px solid var(--sage);background:none;color:var(--sage);cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;}
-.ib-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px;flex-shrink:0;}
-
-/* MENTOR BUTTON */
-.mentor-btn{width:100%;padding:16px;border-radius:12px;border:0.5px solid var(--calm);background:rgba(139,167,199,0.08);color:var(--calm);font-family:'Inter',sans-serif;font-weight:500;font-size:14px;letter-spacing:0.06em;cursor:pointer;transition:all 0.2s;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;}
-.mentor-btn:active{opacity:0.8;transform:scale(0.98);}
-.mentor-btn:disabled{opacity:0.5;cursor:not-allowed;}
-
-/* MENTOR MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(13,15,20,0.85);z-index:300;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity 0.3s ease;}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:24px 20px 32px;max-height:80vh;display:flex;flex-direction:column;transform:translateY(40px);transition:transform 0.3s ease;}
-.modal-overlay.open .modal-sheet{transform:translateY(0);}
-.modal-handle{width:40px;height:4px;background:var(--faint);border-radius:2px;margin:0 auto 20px;}
-.modal-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--parchment);margin-bottom:4px;}
-.modal-sub{font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;}
-.mentor-response{flex:1;overflow-y:auto;background:var(--card);border-radius:12px;padding:16px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.85;color:var(--parchment);min-height:120px;-webkit-overflow-scrolling:touch;}
-.mentor-response::-webkit-scrollbar{display:none;}
-.mentor-response .thinking{color:var(--muted);font-style:italic;font-size:13px;animation:pulse 1.5s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
-.modal-close{width:100%;padding:14px;border-radius:12px;border:0.5px solid var(--faint);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;margin-top:14px;}
-.modal-close:active{border-color:var(--calm);color:var(--calm);}
-.mentor-nav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 20px;cursor:pointer;border:none;background:none;color:var(--calm);font-family:'Inter',sans-serif;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;min-width:60px;}
+/* LOADING overlay */
+.loading-overlay{
+  position:absolute;inset:0;
+  background:rgba(8,10,15,0.85);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:50;gap:16px;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.loading-overlay.show{opacity:1;pointer-events:all;}
+.loading-symbol{font-size:28px;animation:breathe 2s ease-in-out infinite;}
+.loading-text{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--ghost);}
 </style>
 </head>
 <body>
 
-<!-- PANTALLA: HOY -->
+<!-- ══════════════ HOY ══════════════ -->
 <div class="screen active" id="screen-hoy">
   <div class="scroll-body">
     <div class="page-header">
-      <div class="logo-orbs">
-        <div class="orb mente" id="orb-m"></div>
-        <div class="orb emocion" id="orb-e"></div>
-        <div class="orb cuerpo" id="orb-c"></div>
-      </div>
-      <div class="page-title">Diario de Brotes</div>
-      <div class="page-subtitle">registra tu transformación</div>
+      <div class="page-title">¿Cómo estás <em>hoy?</em></div>
+      <div class="page-sub">registra tu transformación</div>
     </div>
 
-    <div id="install-banner" class="install-banner" style="display:none;">
-      <div class="ib-text">Agrega a tu pantalla de inicio para usarlo como app 🌱</div>
-      <button class="ib-btn" onclick="triggerInstall()">Agregar</button>
-      <button class="ib-close" onclick="closeBanner()">×</button>
+    <div style="display:flex;justify-content:center;margin-bottom:20px;">
+      <div class="fase-badge">
+        <div class="fase-dot" id="hoy-fase-dot" style="background:var(--phase1);"></div>
+        <span id="hoy-fase-label">Fase 1 · Fundación</span>
+      </div>
     </div>
 
     <div class="date-bar">
@@ -197,66 +448,147 @@ body{font-family:'Inter',sans-serif;color:var(--parchment);}
       </div>
     </div>
 
-    <div class="section-label">¿cómo estás hoy?</div>
+    <div class="slabel">rutina del día</div>
+    <div class="rutina-grid">
+      <div class="rutina-item" id="r0" onclick="toggleRutina(0)">
+        <span class="rutina-icon">🏃</span><span class="rutina-text">30 min<br>carrera</span>
+        <span class="rutina-check">✓</span>
+      </div>
+      <div class="rutina-item" id="r1" onclick="toggleRutina(1)">
+        <span class="rutina-icon">💪</span><span class="rutina-text">Calistenia<br>completada</span>
+        <span class="rutina-check">✓</span>
+      </div>
+      <div class="rutina-item" id="r2" onclick="toggleRutina(2)">
+        <span class="rutina-icon">🧘</span><span class="rutina-text">7 min<br>meditación</span>
+        <span class="rutina-check">✓</span>
+      </div>
+      <div class="rutina-item" id="r3" onclick="toggleRutina(3)">
+        <span class="rutina-icon">📗</span><span class="rutina-text">Lectura<br>del día</span>
+        <span class="rutina-check">✓</span>
+      </div>
+    </div>
+
+    <div class="slabel">tríada · mente · emoción · cuerpo</div>
     <div class="triada">
       <div class="triada-card mente">
         <div class="triada-icon">🌙</div>
         <div class="triada-lbl">mente</div>
         <div class="triada-val" id="val-m">5</div>
-        <input type="range" class="triada-slider" min="1" max="10" value="5" id="sl-m" step="1" oninput="updateTriada('m',this.value)">
+        <input type="range" class="triada-slider" min="1" max="10" value="5" id="sl-m" oninput="updateTriada('m',this.value)">
       </div>
       <div class="triada-card emocion">
         <div class="triada-icon">🌱</div>
         <div class="triada-lbl">emoción</div>
         <div class="triada-val" id="val-e">5</div>
-        <input type="range" class="triada-slider" min="1" max="10" value="5" id="sl-e" step="1" oninput="updateTriada('e',this.value)">
+        <input type="range" class="triada-slider" min="1" max="10" value="5" id="sl-e" oninput="updateTriada('e',this.value)">
       </div>
       <div class="triada-card cuerpo">
         <div class="triada-icon">🌿</div>
         <div class="triada-lbl">cuerpo</div>
         <div class="triada-val" id="val-c">5</div>
-        <input type="range" class="triada-slider" min="1" max="10" value="5" id="sl-c" step="1" oninput="updateTriada('c',this.value)">
+        <input type="range" class="triada-slider" min="1" max="10" value="5" id="sl-c" oninput="updateTriada('c',this.value)">
       </div>
     </div>
 
-    <div class="section-label">emociones presentes</div>
+    <div class="slabel">libro activo</div>
+    <div class="libro-card">
+      <div class="libro-selector">
+        <button class="libro-opt active" onclick="selectLibro(this,'El poder del ahora','Eckhart Tolle',236,20)">El poder del ahora</button>
+        <button class="libro-opt" onclick="selectLibro(this,'Buda: Historia de un despertar','Karen Armstrong',288,25)">Buda</button>
+        <button class="libro-opt" onclick="selectLibro(this,'Mindfulness en la vida cotidiana','Thich Nhat Hanh',224,20)">Mindfulness</button>
+        <button class="libro-opt" onclick="selectLibro(this,'El hombre en busca de sentido','Viktor Frankl',176,18)">Frankl</button>
+      </div>
+      <div class="libro-header">
+        <div class="libro-spine"></div>
+        <div style="flex:1">
+          <div class="libro-titulo" id="libro-titulo">El poder del ahora</div>
+          <div class="libro-autor" id="libro-autor">Eckhart Tolle</div>
+        </div>
+      </div>
+      <!-- Indicador de páginas -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--ghost);letter-spacing:0.1em;margin-bottom:6px;">PÁGINA HOY</div>
+          <input id="libro-pagina-actual" type="number" min="0" max="9999" value="0"
+            style="width:100%;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--gold);text-align:center;"
+            oninput="updateLibroIndicador()">
+        </div>
+        <div style="background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--ghost);letter-spacing:0.1em;margin-bottom:6px;">TOTAL PÁGINAS</div>
+          <input id="libro-pagina-total" type="number" min="1" max="9999" value="236"
+            style="width:100%;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--mist);text-align:center;"
+            oninput="updateLibroIndicador()">
+        </div>
+      </div>
+      <!-- Barra de progreso real -->
+      <div class="libro-progress-bg" style="margin-bottom:8px;">
+        <div class="libro-progress-fill" id="libro-fill" style="width:0%"></div>
+      </div>
+      <!-- Meta diaria de Tenzin -->
+      <div id="libro-meta" style="background:rgba(160,123,201,0.07);border:0.5px solid rgba(160,123,201,0.2);border-radius:10px;padding:12px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:18px;">📖</span>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink);" id="libro-meta-texto">Lee 12 páginas hoy</div>
+          <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--ghost);margin-top:3px;" id="libro-meta-sub">para terminar en 20 días · Tenzin Dorje</div>
+        </div>
+      </div>
+      <textarea class="libro-nota" id="libro-nota" rows="2" placeholder="Algo que resonó en la lectura de hoy…"></textarea>
+    </div>
+
+    <div class="pregunta-card">
+      <div class="pregunta-label">pregunta del día · Lama Tenzin Dorje</div>
+      <div class="pregunta-text" id="pregunta-text"></div>
+      <textarea class="pregunta-area" id="pregunta-resp" placeholder="Escribe sin filtros. Nadie más leerá esto."></textarea>
+    </div>
+
+    <div class="slabel">emociones presentes</div>
     <div class="emotion-tags">
       <span class="tag s" onclick="toggleTag(this)">claridad</span>
       <span class="tag s" onclick="toggleTag(this)">ansiedad</span>
       <span class="tag s" onclick="toggleTag(this)">enfoque</span>
       <span class="tag s" onclick="toggleTag(this)">confusión</span>
+      <span class="tag s" onclick="toggleTag(this)">presencia</span>
       <span class="tag e" onclick="toggleTag(this)">gratitud</span>
       <span class="tag e" onclick="toggleTag(this)">tristeza</span>
       <span class="tag e" onclick="toggleTag(this)">esperanza</span>
       <span class="tag e" onclick="toggleTag(this)">calma</span>
       <span class="tag e" onclick="toggleTag(this)">miedo</span>
       <span class="tag e" onclick="toggleTag(this)">amor</span>
+      <span class="tag e" onclick="toggleTag(this)">desconexión</span>
       <span class="tag f" onclick="toggleTag(this)">energía</span>
       <span class="tag f" onclick="toggleTag(this)">cansancio</span>
       <span class="tag f" onclick="toggleTag(this)">fuerza</span>
       <span class="tag f" onclick="toggleTag(this)">tensión</span>
-      <span class="tag f" onclick="toggleTag(this)">ligereza</span>
+      <span class="tag x" onclick="toggleTag(this)">sombra activa</span>
+      <span class="tag x" onclick="toggleTag(this)">patrón repetido</span>
+      <span class="tag x" onclick="toggleTag(this)">apertura</span>
     </div>
 
-    <div class="section-label">escribe libremente</div>
-    <textarea class="entry-area" id="entry-text" rows="6" placeholder="¿Qué está brotando en ti hoy? No hay forma correcta de escribir esto…" oninput="countWords()"></textarea>
+    <div class="slabel">observación de sombra · Jung</div>
+    <div class="sombra-card">
+      <div class="sombra-desc">¿Qué parte de ti surgió hoy que preferirías no ver? Sin juicio — solo observación.</div>
+      <textarea class="sombra-area" id="sombra-text" placeholder="Lo anoto sin juzgarme…"></textarea>
+    </div>
+
+    <div class="slabel">flujo libre del día</div>
+    <textarea class="entry-area" id="entry-text" rows="6" placeholder="¿Qué está brotando en ti hoy?" oninput="countWords()"></textarea>
     <div class="word-count" id="wc">0 palabras</div>
 
-    <div class="intentions">
-      <div class="section-label" style="margin-bottom:4px;">semillas del día</div>
+    <div class="semillas">
+      <div class="slabel" style="margin-bottom:4px;">semillas · intenciones</div>
       <div id="intentions-list">
         <div class="int-row">
-          <div class="int-dot" style="background:var(--sage);"></div>
+          <div class="int-dot" style="background:var(--jade);"></div>
           <input class="int-text" placeholder="una intención para hoy…">
           <div class="int-check" onclick="toggleCheck(this)">✓</div>
         </div>
         <div class="int-row">
-          <div class="int-dot" style="background:var(--calm);"></div>
+          <div class="int-dot" style="background:var(--mist);"></div>
           <input class="int-text" placeholder="algo que quiero soltar…">
           <div class="int-check" onclick="toggleCheck(this)">✓</div>
         </div>
         <div class="int-row">
-          <div class="int-dot" style="background:var(--earth);"></div>
+          <div class="int-dot" style="background:var(--gold);"></div>
           <input class="int-text" placeholder="una gratitud pequeña…">
           <div class="int-check" onclick="toggleCheck(this)">✓</div>
         </div>
@@ -264,42 +596,26 @@ body{font-family:'Inter',sans-serif;color:var(--parchment);}
     </div>
 
     <button class="save-btn" onclick="saveEntry()">guardar entrada del día</button>
-    <button class="mentor-btn" onclick="openMentor()" id="mentor-btn">🙏 pedir guía a tu mentora</button>
     <button class="export-btn" onclick="exportJSON()">↓ exportar mis entradas</button>
     <div style="height:12px;"></div>
   </div>
-  <nav class="bottom-nav" id="nav-hoy">
+  <nav class="bottom-nav">
     <button class="nav-item active" onclick="showScreen('hoy')"><span class="nav-icon">🌱</span>hoy</button>
     <button class="nav-item" onclick="showScreen('entradas')"><span class="nav-icon">📖</span>entradas</button>
     <button class="nav-item" onclick="showScreen('proceso')"><span class="nav-icon">✦</span>proceso</button>
+    <button class="nav-item" onclick="showScreen('tenzin')"><span class="nav-icon">🪔</span>maestro</button>
   </nav>
 </div>
 
-<!-- MENTOR MODAL -->
-<div class="modal-overlay" id="mentor-modal">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Tu mentora budista</div>
-    <div class="modal-sub">reflexión sobre tu día</div>
-    <div class="mentor-response" id="mentor-response">
-      <span class="thinking">Leyendo tu entrada de hoy…</span>
-    </div>
-    <button class="modal-close" onclick="closeMentor()">cerrar</button>
-  </div>
-</div>
-
-<!-- PANTALLA: ENTRADAS -->
+<!-- ══════════════ ENTRADAS ══════════════ -->
 <div class="screen" id="screen-entradas">
   <div class="scroll-body">
     <div class="page-header">
-      <div class="page-title" style="padding-top:8px;">Mis entradas</div>
-      <div class="page-subtitle">tu camino hasta ahora</div>
+      <div class="page-title">Mis <em>entradas</em></div>
+      <div class="page-sub">tu camino hasta ahora</div>
     </div>
     <div id="entries-list">
-      <div class="empty-state">
-        <div class="es-icon">🌾</div>
-        <p>Aún no hay entradas.<br>Empieza escribiendo hoy.</p>
-      </div>
+      <div class="empty-state"><div class="es-icon">🌾</div><p>Aún no hay entradas.<br>El camino empieza hoy.</p></div>
     </div>
     <div style="height:12px;"></div>
   </div>
@@ -307,17 +623,61 @@ body{font-family:'Inter',sans-serif;color:var(--parchment);}
     <button class="nav-item" onclick="showScreen('hoy')"><span class="nav-icon">🌱</span>hoy</button>
     <button class="nav-item active" onclick="showScreen('entradas')"><span class="nav-icon">📖</span>entradas</button>
     <button class="nav-item" onclick="showScreen('proceso')"><span class="nav-icon">✦</span>proceso</button>
+    <button class="nav-item" onclick="showScreen('tenzin')"><span class="nav-icon">🪔</span>maestro</button>
   </nav>
 </div>
 
-<!-- PANTALLA: PROCESO -->
+<!-- ══════════════ PROCESO ══════════════ -->
 <div class="screen" id="screen-proceso">
   <div class="scroll-body">
     <div class="page-header">
-      <div class="page-title" style="padding-top:8px;">Mi proceso</div>
-      <div class="page-subtitle">cómo estás evolucionando</div>
+      <div class="page-title">Mi <em>proceso</em></div>
+      <div class="page-sub">cómo estás evolucionando</div>
     </div>
-    <div class="stats-grid" id="stats-grid">
+
+    <div class="proceso-hero">
+      <div class="kensho-quote">"El agua no se resiste, se acomoda.<br>Nosotros operamos como hielos.<br>Sé agua."</div>
+      <div class="kensho-author">— Lama Tenzin Dorje</div>
+    </div>
+
+    <div class="slabel">mapa del camino</div>
+    <div id="fases-map">
+      <div class="fase-row" id="frow-1" onclick="setFase(1)">
+        <div class="fase-num" style="color:var(--phase1);">I</div>
+        <div style="flex:1">
+          <div class="fase-name">Fundación</div>
+          <div class="fase-desc">Meses 1–2 · Conocerte y estabilizarte. Meditación, El poder del ahora.</div>
+        </div>
+        <span class="fase-current-mark" id="fmark-1"></span>
+      </div>
+      <div class="fase-row" id="frow-2" onclick="setFase(2)">
+        <div class="fase-num" style="color:var(--phase2);">II</div>
+        <div style="flex:1">
+          <div class="fase-name">Entendimiento</div>
+          <div class="fase-desc">Meses 3–5 · Mente y emociones. Jung, Frankl, inteligencia emocional.</div>
+        </div>
+        <span class="fase-current-mark" id="fmark-2"></span>
+      </div>
+      <div class="fase-row" id="frow-3" onclick="setFase(3)">
+        <div class="fase-num" style="color:var(--phase3);">III</div>
+        <div style="flex:1">
+          <div class="fase-name">El Mundo</div>
+          <div class="fase-desc">Meses 6–9 · Economía, política, tecnología. Sapiens, Harari.</div>
+        </div>
+        <span class="fase-current-mark" id="fmark-3"></span>
+      </div>
+      <div class="fase-row" id="frow-4" onclick="setFase(4)">
+        <div class="fase-num" style="color:var(--phase4);">IV</div>
+        <div style="flex:1">
+          <div class="fase-name">Transmisión</div>
+          <div class="fase-desc">Mes 10+ · El Bodhisattva. Compartir lo aprendido con el mundo.</div>
+        </div>
+        <span class="fase-current-mark" id="fmark-4"></span>
+      </div>
+    </div>
+
+    <div class="slabel" style="margin-top:20px;">estadísticas</div>
+    <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-label">días registrados</div>
         <div class="stat-val" id="stat-days">0</div>
@@ -330,64 +690,433 @@ body{font-family:'Inter',sans-serif;color:var(--parchment);}
       </div>
     </div>
 
-    <div class="section-label">promedio de tu tríada</div>
-    <div style="background:var(--surface);border:0.5px solid var(--faint);border-radius:12px;padding:18px;margin-bottom:20px;">
-      <div class="mini-bar-wrap" id="bars-wrap">
-        <div class="mini-bar-row">
-          <div class="mini-bar-label">🌙 mente</div>
-          <div class="mini-bar-bg"><div class="mini-bar-fill" id="bar-m" style="width:50%;background:var(--calm);"></div></div>
-          <div class="mini-bar-num" id="bval-m">5</div>
-        </div>
-        <div class="mini-bar-row">
-          <div class="mini-bar-label">🌱 emoción</div>
-          <div class="mini-bar-bg"><div class="mini-bar-fill" id="bar-e" style="width:50%;background:var(--sage);"></div></div>
-          <div class="mini-bar-num" id="bval-e">5</div>
-        </div>
-        <div class="mini-bar-row">
-          <div class="mini-bar-label">🌿 cuerpo</div>
-          <div class="mini-bar-bg"><div class="mini-bar-fill" id="bar-c" style="width:50%;background:var(--earth);"></div></div>
-          <div class="mini-bar-num" id="bval-c">5</div>
-        </div>
+    <div class="slabel">promedio tríada</div>
+    <div class="mini-bar-wrap">
+      <div class="mini-bar-row">
+        <div class="mini-bar-label">🌙 mente</div>
+        <div class="mini-bar-bg"><div class="mini-bar-fill" id="bar-m" style="width:50%;background:var(--mist);"></div></div>
+        <div class="mini-bar-num" id="bval-m">5</div>
+      </div>
+      <div class="mini-bar-row">
+        <div class="mini-bar-label">🌱 emoción</div>
+        <div class="mini-bar-bg"><div class="mini-bar-fill" id="bar-e" style="width:50%;background:var(--jade);"></div></div>
+        <div class="mini-bar-num" id="bval-e">5</div>
+      </div>
+      <div class="mini-bar-row">
+        <div class="mini-bar-label">🌿 cuerpo</div>
+        <div class="mini-bar-bg"><div class="mini-bar-fill" id="bar-c" style="width:50%;background:var(--gold);"></div></div>
+        <div class="mini-bar-num" id="bval-c">5</div>
       </div>
     </div>
 
-    <div class="section-label">emociones más frecuentes</div>
-    <div id="top-tags" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px;"></div>
+    <div class="slabel">hitos del camino</div>
+    <div class="hito-add-form">
+      <input class="hito-input" id="hito-input" placeholder="Marca un momento importante…">
+      <button class="hito-add-btn" onclick="addHito()">+ registrar hito</button>
+    </div>
+    <div id="hito-list" style="margin-bottom:24px;"></div>
 
+    <div class="slabel">emociones frecuentes</div>
+    <div id="top-tags" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px;"></div>
     <div style="height:12px;"></div>
   </div>
   <nav class="bottom-nav">
     <button class="nav-item" onclick="showScreen('hoy')"><span class="nav-icon">🌱</span>hoy</button>
     <button class="nav-item" onclick="showScreen('entradas')"><span class="nav-icon">📖</span>entradas</button>
     <button class="nav-item active" onclick="showScreen('proceso')"><span class="nav-icon">✦</span>proceso</button>
+    <button class="nav-item" onclick="showScreen('tenzin')"><span class="nav-icon">🪔</span>maestro</button>
   </nav>
 </div>
 
-<div class="toast" id="toast">✦ Entrada guardada</div>
+<!-- ══════════════ TENZIN DORJE ══════════════ -->
+<div class="screen" id="screen-tenzin">
+
+  <div class="tenzin-header">
+    <div class="tenzin-symbol">🪔</div>
+    <div class="tenzin-name">Lama Tenzin Dorje</div>
+    <div class="tenzin-title">Guardián del Dharma · Mente de Diamante</div>
+  </div>
+
+  <div class="tenzin-mode-bar">
+    <button class="tenzin-mode-btn active" id="mode-btn-analisis" onclick="setTenzinMode('analisis')">✦ análisis del día</button>
+    <button class="tenzin-mode-btn" id="mode-btn-chat" onclick="setTenzinMode('chat')">◈ conversación</button>
+    <button class="tenzin-mode-btn" id="mode-btn-practica" onclick="setTenzinMode('practica')">🌿 práctica</button>
+  </div>
+
+  <!-- MODO ANÁLISIS -->
+  <div id="tenzin-analisis" class="tenzin-analysis-area">
+    <div class="tenzin-welcome" id="analisis-welcome">
+      <div class="tenzin-welcome-text">
+        "Antes de recibir enseñanza,<br>el discípulo debe traer lo que vivió.<br>Sin experiencia no hay transmisión."
+      </div>
+      <div class="tenzin-welcome-sub">
+        Guarda tu entrada del día primero.<br>Luego regresa aquí y el Lama leerá tu proceso.
+      </div>
+      <button class="tenzin-analyze-btn" id="analyze-btn" onclick="requestAnalysis()">
+        Lama Tenzin Dorje, lee mi día de hoy
+      </button>
+      <div id="no-entries-warn" style="display:none;" class="tenzin-no-entries">
+        Aún no tienes entradas guardadas.<br>Ve a <strong>Hoy</strong>, llena tu día y guárdalo primero.
+      </div>
+    </div>
+    <div id="analisis-response" style="display:none;">
+      <div class="tenzin-response">
+        <div class="tenzin-response-label">🪔 Lama Tenzin Dorje · análisis de tu proceso</div>
+        <div class="tenzin-response-text" id="analisis-text"></div>
+      </div>
+      <div class="tenzin-cierre" id="analisis-cierre"></div>
+      <button class="tenzin-analyze-btn" onclick="resetAnalysis()" style="margin-top:16px;">← nuevo análisis</button>
+    </div>
+    <div class="loading-overlay" id="loading-analisis">
+      <div class="loading-symbol">🪔</div>
+      <div class="loading-text">El Lama está leyendo tu proceso…</div>
+    </div>
+  </div>
+
+  <!-- MODO CHAT -->
+  <div id="tenzin-chat-mode" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+    <div class="tenzin-chat" id="chat-messages">
+      <div class="chat-bubble tenzin">
+        <div class="bubble-name">Lama Tenzin Dorje</div>
+        Has llegado al espacio de conversación. Puedes preguntarme lo que necesites sobre tu proceso, sobre una emoción que no entiendes, sobre una práctica, o simplemente compartir lo que está en tu mente. Estoy aquí.
+      </div>
+    </div>
+    <div class="tenzin-input-bar">
+      <textarea class="tenzin-input" id="chat-input" placeholder="Escribe al Lama…" rows="1" onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="tenzin-send" id="chat-send" onclick="sendChat()">↑</button>
+    </div>
+  </div>
+
+  <!-- MODO PRÁCTICA -->
+  <div id="tenzin-practica-mode" style="display:none;" class="tenzin-analysis-area">
+    <div class="tenzin-welcome">
+      <div class="tenzin-welcome-text">
+        "La práctica no es lo que haces una vez.<br>Es lo que haces cuando no tienes ganas."
+      </div>
+      <div class="tenzin-welcome-sub" style="margin-top:20px;font-size:12px;">
+        Pide al Lama una práctica específica para tu momento actual.
+      </div>
+      <button class="tenzin-analyze-btn" onclick="requestPractica()" style="margin-top:16px;">
+        Lama, ¿qué práctica necesito hoy?
+      </button>
+    </div>
+    <div id="practica-response" style="display:none;">
+      <div class="tenzin-response">
+        <div class="tenzin-response-label">🌿 práctica recomendada</div>
+        <div class="tenzin-response-text" id="practica-text"></div>
+      </div>
+      <button class="tenzin-analyze-btn" onclick="resetPractica()" style="margin-top:16px;">← otra práctica</button>
+    </div>
+    <div class="loading-overlay" id="loading-practica">
+      <div class="loading-symbol">🌿</div>
+      <div class="loading-text">El Lama prepara tu práctica…</div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item" onclick="showScreen('hoy')"><span class="nav-icon">🌱</span>hoy</button>
+    <button class="nav-item" onclick="showScreen('entradas')"><span class="nav-icon">📖</span>entradas</button>
+    <button class="nav-item" onclick="showScreen('proceso')"><span class="nav-icon">✦</span>proceso</button>
+    <button class="nav-item active" onclick="showScreen('tenzin')"><span class="nav-icon">🪔</span>maestro</button>
+  </nav>
+</div>
+
+<div class="toast" id="toast">✦ guardado</div>
 
 <script>
+// ══════════════════════════════════════════
+// ESTADO GLOBAL
+// ══════════════════════════════════════════
 let currentOffset = 0;
-const monthsES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const daysES=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 const startDate = new Date();
 let entries = {};
-try{ entries = JSON.parse(localStorage.getItem('brotes_entries') || '{}'); }catch(e){}
+let hitos = [];
+let currentFase = 1;
+let currentLibro = {titulo:'El poder del ahora', autor:'Eckhart Tolle'};
+let rutinaState = [false,false,false,false];
+let chatHistory = [];
+let tenzinMode = 'analisis';
 
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault(); deferredPrompt = e;
-  document.getElementById('install-banner').style.display = 'flex';
-});
-function triggerInstall(){ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt=null; closeBanner(); } }
-function closeBanner(){ document.getElementById('install-banner').style.display='none'; }
+// CARGA desde localStorage
+try { entries = JSON.parse(localStorage.getItem('kensho_entries') || '{}'); } catch(e){}
+try { hitos = JSON.parse(localStorage.getItem('kensho_hitos') || '[]'); } catch(e){}
+try { currentFase = parseInt(localStorage.getItem('kensho_fase') || '1'); } catch(e){}
 
-function showScreen(name){
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');
-  if(name==='entradas') renderEntries();
-  if(name==='proceso') renderStats();
+// ══════════════════════════════════════════
+// DATOS
+// ══════════════════════════════════════════
+const monthsES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const daysES=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+
+const FASES = {
+  1:{color:'var(--phase1)',label:'Fase 1 · Fundación'},
+  2:{color:'var(--phase2)',label:'Fase 2 · Entendimiento'},
+  3:{color:'var(--phase3)',label:'Fase 3 · El Mundo'},
+  4:{color:'var(--phase4)',label:'Fase 4 · Transmisión'}
+};
+
+const PREGUNTAS = [
+  "¿En qué momento del día te desconectaste de ti mismo, y qué lo provocó?",
+  "¿Qué patrón notaste hoy que ya has visto antes en ti?",
+  "¿Hubo un instante de presencia genuina hoy? ¿Cómo fue?",
+  "¿Qué emoción estuviste evitando durante el día?",
+  "¿En qué momento actuaste desde el miedo y no desde la sabiduría?",
+  "¿Qué aprendiste de ti mismo en las últimas 24 horas?",
+  "¿Hubo algo que quisiste decir y no dijiste? ¿Por qué?",
+  "¿Qué parte de ti necesita más compasión hoy?",
+  "¿Cómo estuvo tu presencia en tu cuerpo durante el día?",
+  "¿Qué semilla de hoy quieres que siga creciendo mañana?"
+];
+
+// ══════════════════════════════════════════
+// PROMPT MAESTRO DE LAMA TENZIN DORJE
+// ══════════════════════════════════════════
+function buildTenzinPrompt(mode, extraContext=''){
+  const entriesKeys = Object.keys(entries).sort();
+  const totalDays = entriesKeys.length;
+  const recentEntries = entriesKeys.slice(-5).map(k => {
+    const e = entries[k];
+    return `[${e.date}] Mente:${e.m} Emoción:${e.e} Cuerpo:${e.c} | Tags: ${(e.tags||[]).join(', ')} | Texto: "${(e.text||'').slice(0,150)}" | Pregunta respondida: "${(e.preguntaResp||'').slice(0,100)}" | Sombra: "${(e.sombra||'').slice(0,100)}" | Rutina completada: ${(e.rutina||[]).filter(Boolean).length}/4 | Libro: ${e.libroTitulo||''} pág.${e.libroPaginaActual||0}/${e.libroTotal||'?'}`;
+  }).join('\n');
+
+  const faseActual = FASES[currentFase]?.label || 'Fase 1';
+
+  return `Eres Lama Tenzin Dorje, un maestro espiritual budista de la tradición Sakya tibetana. Tu nombre significa "Guardián del Dharma con mente de diamante".
+
+QUIÉN ERES:
+- Naciste en Latinoamérica pero te formaste durante más de 20 años en monasterios de India, Nepal y el Tíbet
+- Tienes formación en psicología occidental además de budismo tibetano. Conoces a Freud, Jung, Frankl y la neurociencia moderna
+- Hablas en español con total fluidez, con calidez y sin tecnicismos innecesarios
+- Usas metáforas simples del mundo cotidiano para explicar verdades profundas
+- No das terapia psicológica. Eres un maestro espiritual que guía desde la sabiduría
+- Tu estilo: directo pero amoroso. Confrontas con compasión. No juzgas pero sí señalas con claridad
+- Crees profundamente en el empoderamiento: siempre devuelves la responsabilidad al discípulo
+- Usas el humor con sabiduría cuando es apropiado
+- Nunca finges ni exageras. Si algo no tiene respuesta fácil, lo dices
+
+CÓMO HABLAS:
+- Frases cortas y poderosas, no discursos largos
+- A veces haces una pregunta en lugar de dar una respuesta
+- Referencias al Dharma, a la impermanencia, a la compasión y a la sombra junguiana son naturales en ti
+- Nunca dices "como IA" o menciones que eres un modelo de lenguaje
+- Siempre terminas con una semilla: una frase o pregunta para que el discípulo lleve consigo
+
+CONTEXTO DEL DISCÍPULO:
+- Está en un proceso de evolución personal y emocional
+- Tiene desempleo, tensiones relacionales y distanciamiento familiar
+- Tenía frialdad emocional como mecanismo de defensa (aislamiento afectivo según Jung)
+- Hace ejercicio diario: 30 min de carrera + calistenia
+- Medita 7 minutos después del ejercicio
+- Lee "El poder del ahora" de Eckhart Tolle actualmente
+- Lleva ${totalDays} días de registro en su diario
+- Fase actual del proceso: ${faseActual}
+
+ENTRADAS RECIENTES DEL DIARIO (últimas 5):
+${recentEntries || 'Sin entradas aún'}
+
+MODO ACTUAL: ${mode}
+${extraContext}
+
+INSTRUCCIONES ESPECÍFICAS POR MODO:
+${mode === 'analisis' ? `
+Analiza las entradas recientes del diario del discípulo. 
+- Observa patrones en su tríada (mente/emoción/cuerpo)
+- Nota qué emociones aparecen con frecuencia
+- Observa su constancia en la rutina
+- Señala con amor lo que ves, incluyendo lo que puede no querer ver
+- Termina SIEMPRE con: (1) Una recomendación concreta (meditación, libro, práctica) y (2) Una "semilla del sueño": una sola frase para llevar al dormir
+- Extensión: 200-300 palabras. No más. La profundidad no se mide en cantidad.
+` : ''}
+${mode === 'chat' ? `
+Estás en conversación directa. Responde como si estuvieras sentado frente al discípulo en el templo.
+- Respuestas de 2-5 oraciones normalmente. Si la pregunta es profunda, puedes extenderte.
+- A veces responde con una pregunta en lugar de una respuesta
+- Sé presente, no repitas lo que ya dijiste antes en la conversación
+` : ''}
+${mode === 'practica' ? `
+Diseña una práctica específica para este discípulo en este momento de su proceso.
+- Puede ser: meditación guiada, ejercicio de escritura, práctica corporal, recomendación de lectura, ejercicio de consciencia
+- Explica QUÉ hacer, CUÁNTO tiempo, y POR QUÉ específicamente para él ahora
+- Hazlo concreto y simple. Que pueda empezar esta noche o mañana.
+- Termina con la razón espiritual detrás de la práctica
+` : ''}`;
 }
 
+// ══════════════════════════════════════════
+// API CALL — Gemini
+// ══════════════════════════════════════════
+const GEMINI_KEY = 'TU_API_KEY_AQUI';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+
+async function callTenzin(systemPrompt, userMessage){
+  const messages = [];
+  if(chatHistory.length > 0 && tenzinMode === 'chat'){
+    chatHistory.slice(-8).forEach(m => {
+      messages.push({role: m.role === 'tenzin' ? 'model' : 'user', parts:[{text: m.content}]});
+    });
+  }
+  messages.push({role:'user', parts:[{text: userMessage}]});
+  const body = {
+    system_instruction:{parts:[{text: systemPrompt}]},
+    contents: messages,
+    generationConfig:{temperature:0.85, maxOutputTokens:800}
+  };
+  const res = await fetch(GEMINI_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'El Lama guarda silencio por un momento.';
+}
+
+// ══════════════════════════════════════════
+// ANÁLISIS DEL DÍA
+// ══════════════════════════════════════════
+async function requestAnalysis(){
+  const totalDays = Object.keys(entries).length;
+  if(totalDays === 0){
+    document.getElementById('no-entries-warn').style.display='block';
+    return;
+  }
+  document.getElementById('loading-analisis').classList.add('show');
+  document.getElementById('analyze-btn').disabled = true;
+  try {
+    const systemPrompt = buildTenzinPrompt('analisis');
+    const userMsg = 'Lama, he completado mi registro del día. Por favor, lee mi proceso y guíame.';
+    const response = await callTenzin(systemPrompt, userMsg);
+    const parts = response.split('\n\n');
+    const cierre = parts.pop();
+    document.getElementById('analisis-text').textContent = parts.join('\n\n');
+    document.getElementById('analisis-cierre').textContent = cierre || '';
+    document.getElementById('analisis-welcome').style.display='none';
+    document.getElementById('analisis-response').style.display='block';
+  } catch(e){
+    showToast('Error al conectar. Revisa tu API key.');
+    console.error(e);
+    document.getElementById('analyze-btn').disabled = false;
+  }
+  document.getElementById('loading-analisis').classList.remove('show');
+}
+
+function resetAnalysis(){
+  document.getElementById('analisis-welcome').style.display='block';
+  document.getElementById('analisis-response').style.display='none';
+  document.getElementById('analyze-btn').disabled = false;
+  document.getElementById('no-entries-warn').style.display='none';
+}
+
+// ══════════════════════════════════════════
+// CHAT
+// ══════════════════════════════════════════
+async function sendChat(){
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if(!msg) return;
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('chat-send').disabled = true;
+
+  addChatBubble('user', msg);
+  chatHistory.push({role:'user', content: msg});
+
+  const thinking = addChatBubble('thinking', '');
+  thinking.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+
+  try {
+    const systemPrompt = buildTenzinPrompt('chat');
+    const response = await callTenzin(systemPrompt, msg);
+    thinking.remove();
+    addChatBubble('tenzin', response);
+    chatHistory.push({role:'tenzin', content: response});
+  } catch(e){
+    thinking.remove();
+    addChatBubble('tenzin', 'El Lama guarda silencio. Revisa tu conexión e intenta de nuevo.');
+    console.error(e);
+  }
+  document.getElementById('chat-send').disabled = false;
+}
+
+function addChatBubble(role, text){
+  const chat = document.getElementById('chat-messages');
+  const bubble = document.createElement('div');
+  bubble.className = `chat-bubble ${role}`;
+  if(role === 'tenzin'){
+    bubble.innerHTML = `<div class="bubble-name">Lama Tenzin Dorje</div>${text}`;
+  } else {
+    bubble.textContent = text;
+  }
+  chat.appendChild(bubble);
+  chat.scrollTop = chat.scrollHeight;
+  return bubble;
+}
+
+function handleChatKey(e){
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendChat();
+  }
+}
+function autoResize(el){
+  el.style.height='auto';
+  el.style.height=Math.min(el.scrollHeight,100)+'px';
+}
+
+// ══════════════════════════════════════════
+// PRÁCTICA
+// ══════════════════════════════════════════
+async function requestPractica(){
+  document.getElementById('loading-practica').classList.add('show');
+  try {
+    const systemPrompt = buildTenzinPrompt('practica');
+    const userMsg = 'Lama, ¿qué práctica específica necesito para este momento de mi proceso?';
+    const response = await callTenzin(systemPrompt, userMsg);
+    document.getElementById('practica-text').textContent = response;
+    document.querySelector('#tenzin-practica-mode .tenzin-welcome').style.display='none';
+    document.getElementById('practica-response').style.display='block';
+  } catch(e){
+    showToast('Error al conectar. Revisa tu API key.');
+    console.error(e);
+  }
+  document.getElementById('loading-practica').classList.remove('show');
+}
+
+function resetPractica(){
+  document.querySelector('#tenzin-practica-mode .tenzin-welcome').style.display='block';
+  document.getElementById('practica-response').style.display='none';
+}
+
+// ══════════════════════════════════════════
+// MODO TENZIN
+// ══════════════════════════════════════════
+function setTenzinMode(mode){
+  tenzinMode = mode;
+  ['analisis','chat','practica'].forEach(m => {
+    document.getElementById(`mode-btn-${m}`).classList.toggle('active', m===mode);
+  });
+  document.getElementById('tenzin-analisis').style.display = mode==='analisis'?'block':'none';
+  document.getElementById('tenzin-chat-mode').style.display = mode==='chat'?'flex':'none';
+  document.getElementById('tenzin-practica-mode').style.display = mode==='practica'?'block':'none';
+}
+
+// ══════════════════════════════════════════
+// PANTALLAS
+// ══════════════════════════════════════════
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>{
+    if(b.getAttribute('onclick')===`showScreen('${name}')`) b.classList.add('active');
+  });
+  if(name==='entradas') renderEntries();
+  if(name==='proceso'){ renderStats(); renderHitos(); updateFaseUI(); }
+}
+
+// ══════════════════════════════════════════
+// FECHA
+// ══════════════════════════════════════════
 function getDateKey(off){
   const d=new Date(startDate); d.setDate(d.getDate()+off);
   return d.toISOString().split('T')[0];
@@ -396,68 +1125,89 @@ function formatDate(off){
   const d=new Date(startDate); d.setDate(d.getDate()+off);
   return `${daysES[d.getDay()]}, ${d.getDate()} de ${monthsES[d.getMonth()]}`;
 }
-
+function getDayOfYear(){
+  const now=new Date(); const start=new Date(now.getFullYear(),0,0);
+  return Math.floor((now-start)/86400000);
+}
+function changeDay(d){ currentOffset+=d; updateDisplay(); }
 function updateDisplay(){
-  document.getElementById('date-display').textContent = formatDate(currentOffset);
-  document.getElementById('streak-label').textContent =
-    currentOffset===0 ? '✦ hoy' :
-    currentOffset>0 ? `✦ en ${currentOffset} día${currentOffset>1?'s':''}` :
+  document.getElementById('date-display').textContent=formatDate(currentOffset);
+  document.getElementById('streak-label').textContent=
+    currentOffset===0?'✦ hoy':
+    currentOffset>0?`✦ en ${currentOffset} día${currentOffset>1?'s':''}`:
     `✦ hace ${Math.abs(currentOffset)} día${Math.abs(currentOffset)>1?'s':''}`;
+  const q = PREGUNTAS[getDayOfYear() % PREGUNTAS.length];
+  document.getElementById('pregunta-text').textContent = q;
   loadDayData();
 }
 
-function loadDayData(){
-  const key = getDateKey(currentOffset);
-  const e = entries[key];
-  const data = e || {m:5,e:5,c:5,text:'',tags:[]};
-  ['m','e','c'].forEach(k=>{
-    document.getElementById('sl-'+k).value = data[k];
-    document.getElementById('val-'+k).textContent = data[k];
-  });
-  document.getElementById('entry-text').value = data.text||'';
-  countWords();
-  updateOrbSize(data.m,data.e,data.c);
-  document.querySelectorAll('.tag').forEach(t=>{
-    t.classList.remove('active');
-    if(data.tags && data.tags.includes(t.textContent)) t.classList.add('active');
-  });
-  const rows = document.querySelectorAll('#intentions-list .int-row');
-  if(e && e.intentions){
-    e.intentions.forEach((int,i)=>{
-      if(rows[i]){
-        rows[i].querySelector('.int-text').value = int.text||'';
-        const chk = rows[i].querySelector('.int-check');
-        int.done ? chk.classList.add('done') : chk.classList.remove('done');
-      }
-    });
-  } else {
-    rows.forEach(r=>{ r.querySelector('.int-text').value=''; r.querySelector('.int-check').classList.remove('done'); });
-  }
-}
-
-function changeDay(d){ currentOffset+=d; updateDisplay(); }
-
+// ══════════════════════════════════════════
+// TRIADA / RUTINA / LIBRO
+// ══════════════════════════════════════════
 function updateTriada(which,val){
-  document.getElementById('val-'+which).textContent = val;
-  updateOrbSize(+document.getElementById('sl-m').value,+document.getElementById('sl-e').value,+document.getElementById('sl-c').value);
+  document.getElementById('val-'+which).textContent=val;
 }
-
-function updateOrbSize(m,e,c){
-  const s=v=>Math.round(8+(v/10)*10);
-  [{k:'m',v:m},{k:'e',v:e},{k:'c',v:c}].forEach(o=>{
-    const el=document.getElementById('orb-'+o.k);
-    el.style.width=el.style.height=s(o.v)+'px';
-  });
+function toggleRutina(i){
+  rutinaState[i]=!rutinaState[i];
+  document.getElementById('r'+i).classList.toggle('done',rutinaState[i]);
 }
-
+function selectLibro(btn, titulo, autor, totalPags, diasMeta){
+  document.querySelectorAll('.libro-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLibro={titulo, autor, totalPags: totalPags||200, diasMeta: diasMeta||20};
+  document.getElementById('libro-titulo').textContent=titulo;
+  document.getElementById('libro-autor').textContent=autor;
+  document.getElementById('libro-pagina-total').value=totalPags||200;
+  updateLibroIndicador();
+}
+function updateLibroIndicador(){
+  const actual = parseInt(document.getElementById('libro-pagina-actual').value)||0;
+  const total = parseInt(document.getElementById('libro-pagina-total').value)||1;
+  const diasMeta = currentLibro.diasMeta||20;
+  const pct = Math.min(100, Math.round((actual/total)*100));
+  document.getElementById('libro-fill').style.width=pct+'%';
+  const restantes = Math.max(0, total - actual);
+  const pagsPorDia = restantes > 0 ? Math.ceil(restantes / diasMeta) : 0;
+  const metaTexto = restantes === 0
+    ? '¡Libro completado! 🙏'
+    : `Lee ${pagsPorDia} página${pagsPorDia!==1?'s':''} hoy`;
+  const subTexto = restantes === 0
+    ? 'Registra un hito en tu proceso'
+    : `para terminar en ~${diasMeta} días · Tenzin Dorje`;
+  document.getElementById('libro-meta-texto').textContent=metaTexto;
+  document.getElementById('libro-meta-sub').textContent=subTexto;
+  currentLibro.paginaActual = actual;
+  currentLibro.totalPags = total;
+}
 function toggleTag(el){ el.classList.toggle('active'); }
 function toggleCheck(el){ el.classList.toggle('done'); }
-
 function countWords(){
   const t=document.getElementById('entry-text').value.trim();
   document.getElementById('wc').textContent=(t?t.split(/\s+/).length:0)+' palabras';
 }
 
+// ══════════════════════════════════════════
+// FASE
+// ══════════════════════════════════════════
+function setFase(n){
+  currentFase=n;
+  try{ localStorage.setItem('kensho_fase',n); }catch(e){}
+  updateFaseUI();
+  showToast('✦ Fase '+n+' seleccionada');
+}
+function updateFaseUI(){
+  [1,2,3,4].forEach(n=>{
+    document.getElementById('frow-'+n).classList.toggle('current',n===currentFase);
+    document.getElementById('fmark-'+n).textContent=n===currentFase?'← ahora':'';
+  });
+  const f=FASES[currentFase];
+  document.getElementById('hoy-fase-dot').style.background=f.color;
+  document.getElementById('hoy-fase-label').textContent=f.label;
+}
+
+// ══════════════════════════════════════════
+// GUARDAR
+// ══════════════════════════════════════════
 function saveEntry(){
   const key=getDateKey(currentOffset);
   const tags=[...document.querySelectorAll('.tag.active')].map(t=>t.textContent);
@@ -470,80 +1220,187 @@ function saveEntry(){
     e:+document.getElementById('sl-e').value,
     c:+document.getElementById('sl-c').value,
     text:document.getElementById('entry-text').value,
+    preguntaResp:document.getElementById('pregunta-resp').value,
+    pregunta:document.getElementById('pregunta-text').textContent,
+    sombra:document.getElementById('sombra-text').value,
+    libroTitulo:currentLibro.titulo,
+    libroAutor:currentLibro.autor,
+    libroPaginaActual:parseInt(document.getElementById('libro-pagina-actual').value)||0,
+    libroTotal:parseInt(document.getElementById('libro-pagina-total').value)||200,
+    libroDiasMeta:currentLibro.diasMeta||20,
+    libraNota:document.getElementById('libro-nota').value,
+    rutina:[...rutinaState],
+    fase:currentFase,
     tags, intentions,
     date:formatDate(currentOffset),
     savedAt:new Date().toISOString()
   };
-  try{ localStorage.setItem('brotes_entries',JSON.stringify(entries)); }catch(e){}
-  showToast('✦ Entrada guardada con amor');
+  try{ localStorage.setItem('kensho_entries',JSON.stringify(entries)); }catch(e){}
+  showToast('✦ Entrada guardada');
 }
 
+// ══════════════════════════════════════════
+// CARGAR DÍA
+// ══════════════════════════════════════════
+function loadDayData(){
+  const key=getDateKey(currentOffset);
+  const en=entries[key];
+  const data=en||{m:5,e:5,c:5,text:'',tags:[],preguntaResp:'',sombra:'',rutina:[false,false,false,false],libroPct:0};
+  ['m','e','c'].forEach(k=>{
+    document.getElementById('sl-'+k).value=data[k];
+    document.getElementById('val-'+k).textContent=data[k];
+  });
+  document.getElementById('entry-text').value=data.text||'';
+  document.getElementById('pregunta-resp').value=data.preguntaResp||'';
+  document.getElementById('sombra-text').value=data.sombra||'';
+  countWords();
+  if(en&&en.libroTitulo){
+    currentLibro={
+      titulo:en.libroTitulo,
+      autor:en.libroAutor||'',
+      diasMeta:en.libroDiasMeta||20,
+      totalPags:en.libroTotal||200
+    };
+    document.getElementById('libro-titulo').textContent=en.libroTitulo;
+    document.getElementById('libro-autor').textContent=en.libroAutor||'';
+  }
+  document.getElementById('libro-pagina-actual').value=en?.libroPaginaActual||0;
+  document.getElementById('libro-pagina-total').value=en?.libroTotal||currentLibro.totalPags||236;
+  document.getElementById('libro-nota').value=en?.libraNota||'';
+  updateLibroIndicador();
+  rutinaState=data.rutina?[...data.rutina]:[false,false,false,false];
+  [0,1,2,3].forEach(i=>document.getElementById('r'+i).classList.toggle('done',rutinaState[i]));
+  document.querySelectorAll('.tag').forEach(t=>{
+    t.classList.remove('active');
+    if(data.tags&&data.tags.includes(t.textContent)) t.classList.add('active');
+  });
+  const rows=document.querySelectorAll('#intentions-list .int-row');
+  if(en&&en.intentions){
+    en.intentions.forEach((int,i)=>{
+      if(rows[i]){
+        rows[i].querySelector('.int-text').value=int.text||'';
+        rows[i].querySelector('.int-check').classList.toggle('done',int.done||false);
+      }
+    });
+  } else {
+    rows.forEach(r=>{r.querySelector('.int-text').value='';r.querySelector('.int-check').classList.remove('done');});
+  }
+}
+
+// ══════════════════════════════════════════
+// ENTRADAS
+// ══════════════════════════════════════════
 function renderEntries(){
   const keys=Object.keys(entries).sort().reverse();
   const list=document.getElementById('entries-list');
   if(!keys.length){
-    list.innerHTML='<div class="empty-state"><div class="es-icon">🌾</div><p>Aún no hay entradas.<br>Empieza escribiendo hoy.</p></div>';
+    list.innerHTML='<div class="empty-state"><div class="es-icon">🌾</div><p>Aún no hay entradas.<br>El camino empieza hoy.</p></div>';
     return;
   }
   list.innerHTML=keys.map(k=>{
     const e=entries[k];
-    const preview=e.text?(e.text.slice(0,90)+(e.text.length>90?'…':'')):'Sin texto escrito.';
+    const preview=e.text?(e.text.slice(0,90)+(e.text.length>90?'…':'')):
+      (e.preguntaResp?e.preguntaResp.slice(0,90)+'…':'Sin texto.');
     const tagHtml=e.tags&&e.tags.length?e.tags.map(t=>`<span class="ep-tag">${t}</span>`).join(''):'';
-    const os=[{k:'m',c:'var(--calm)'},{k:'e',c:'var(--sage)'},{k:'c',c:'var(--earth)'}]
-      .map(o=>`<div class="ep-orb" style="background:${o.c};width:${6+e[o.k]}px;height:${6+e[o.k]}px;"></div>`).join('');
+    const rutDone=e.rutina?e.rutina.filter(Boolean).length:0;
     return `<div class="entry-pill">
-      <div class="ep-header"><span class="ep-date">${e.date}</span><div class="ep-orbs">${os}</div></div>
+      <div class="ep-header">
+        <span class="ep-date">${e.date}</span>
+        <span class="ep-fase">Fase ${e.fase||1}</span>
+      </div>
+      <div class="ep-triada">
+        <span class="ep-t-item" style="color:var(--mist)">🌙 ${e.m}</span>
+        <span class="ep-t-item" style="color:var(--jade)">🌱 ${e.e}</span>
+        <span class="ep-t-item" style="color:var(--gold)">🌿 ${e.c}</span>
+        ${rutDone>0?`<span class="ep-t-item" style="color:var(--gold-dim)">✦ ${rutDone}/4</span>`:''}
+      </div>
       <div class="ep-preview">${preview}</div>
       ${tagHtml?`<div class="ep-tags">${tagHtml}</div>`:''}
     </div>`;
   }).join('');
 }
 
+// ══════════════════════════════════════════
+// ESTADÍSTICAS
+// ══════════════════════════════════════════
 function renderStats(){
   const keys=Object.keys(entries);
   document.getElementById('stat-days').textContent=keys.length;
-  if(!keys.length){ return; }
+  if(!keys.length) return;
   const avg=k=>Math.round((keys.reduce((a,dk)=>a+(entries[dk][k]||5),0)/keys.length)*10)/10;
-  const am=avg('m'), ae=avg('e'), ac=avg('c');
+  const am=avg('m'),ae=avg('e'),ac=avg('c');
   document.getElementById('bar-m').style.width=(am/10*100)+'%';
   document.getElementById('bar-e').style.width=(ae/10*100)+'%';
   document.getElementById('bar-c').style.width=(ac/10*100)+'%';
   document.getElementById('bval-m').textContent=am;
   document.getElementById('bval-e').textContent=ae;
   document.getElementById('bval-c').textContent=ac;
-
   const tagCount={};
-  keys.forEach(k=>{ (entries[k].tags||[]).forEach(t=>{ tagCount[t]=(tagCount[t]||0)+1; }); });
+  keys.forEach(k=>{(entries[k].tags||[]).forEach(t=>{tagCount[t]=(tagCount[t]||0)+1;});});
   const sorted=Object.entries(tagCount).sort((a,b)=>b[1]-a[1]).slice(0,8);
   document.getElementById('top-tags').innerHTML=sorted.length
-    ? sorted.map(([t,c])=>`<span class="tag" style="border-color:var(--faint);color:var(--muted);">${t} <span style="color:var(--sage);font-size:10px;">${c}</span></span>`).join('')
-    : '<span style="font-size:12px;color:var(--muted);">Aún no hay datos suficientes.</span>';
-
+    ?sorted.map(([t,c])=>`<span class="tag">${t} <span style="color:var(--gold);font-size:10px;">${c}</span></span>`).join('')
+    :'<span style="font-size:12px;color:var(--ghost);">Aún sin datos suficientes.</span>';
+  const stop=new Set(['de','la','el','en','y','que','a','los','las','un','una','es','se','no','me','te','mi','tu','su','por','con','del','al','lo','le','como','más','ya','si','pero','este','esta','eso','hay','muy','era','fue','ser','bien','todo','esto','para','cuando','hoy','fue','era']);
   const allWords={};
-  const stopWords=new Set(['de','la','el','en','y','que','a','los','las','un','una','es','se','no','me','te','mi','tu','su','por','con','del','al','lo','le','como','más','ya','si','pero','este','esta','eso','hay','muy','era','fue','ser','bien','todo','esto','para','cuando']);
   keys.forEach(k=>{
-    (entries[k].text||'').toLowerCase().split(/\s+/).forEach(w=>{
+    const combined=(entries[k].text||'')+' '+(entries[k].preguntaResp||'')+' '+(entries[k].sombra||'');
+    combined.toLowerCase().split(/\s+/).forEach(w=>{
       w=w.replace(/[^a-záéíóúñü]/g,'');
-      if(w.length>3 && !stopWords.has(w)) allWords[w]=(allWords[w]||0)+1;
+      if(w.length>3&&!stop.has(w)) allWords[w]=(allWords[w]||0)+1;
     });
   });
-  const topWord=Object.entries(allWords).sort((a,b)=>b[1]-a[1])[0];
-  if(topWord){
-    document.getElementById('stat-word').textContent='"'+topWord[0]+'"';
-    document.getElementById('stat-word-sub').textContent=`mencionada ${topWord[1]} vez${topWord[1]>1?'es':''}`;
+  const top=Object.entries(allWords).sort((a,b)=>b[1]-a[1])[0];
+  if(top){
+    document.getElementById('stat-word').textContent='"'+top[0]+'"';
+    document.getElementById('stat-word-sub').textContent=`mencionada ${top[1]} vez${top[1]>1?'es':''}`;
   }
 }
 
+// ══════════════════════════════════════════
+// HITOS
+// ══════════════════════════════════════════
+function addHito(){
+  const inp=document.getElementById('hito-input');
+  const txt=inp.value.trim();
+  if(!txt) return;
+  const now=new Date();
+  hitos.unshift({texto:txt,fecha:`${now.getDate()} ${monthsES[now.getMonth()]} ${now.getFullYear()}`});
+  try{ localStorage.setItem('kensho_hitos',JSON.stringify(hitos)); }catch(e){}
+  inp.value='';
+  renderHitos();
+  showToast('✦ Hito registrado');
+}
+function renderHitos(){
+  const list=document.getElementById('hito-list');
+  if(!hitos.length){
+    list.innerHTML='<p style="font-size:12px;color:var(--ghost);padding:8px 0;font-style:italic;font-family:Cormorant Garamond,serif;">Cada momento importante merece ser marcado.</p>';
+    return;
+  }
+  list.innerHTML=hitos.map(h=>`
+    <div class="hito-item">
+      <div class="hito-dot"></div>
+      <div class="hito-fecha">${h.fecha}</div>
+      <div class="hito-texto">${h.texto}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// EXPORT
+// ══════════════════════════════════════════
 function exportJSON(){
-  const data=JSON.stringify(entries,null,2);
+  const data=JSON.stringify({entries,hitos,fase:currentFase},null,2);
   const blob=new Blob([data],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url; a.download='mis_brotes.json'; a.click();
+  a.href=url; a.download='tenzin_diario.json'; a.click();
   URL.revokeObjectURL(url);
-  showToast('✦ Entradas exportadas');
+  showToast('✦ Diario exportado');
 }
 
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;
@@ -551,71 +1408,12 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),2600);
 }
 
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+updateFaseUI();
 updateDisplay();
-
-// ── MENTOR IA ──────────────────────────────────────────────
-function openMentor(){
-  const modal = document.getElementById('mentor-modal');
-  const resp = document.getElementById('mentor-response');
-  modal.classList.add('open');
-
-  // Build context from last 7 entries
-  const keys = Object.keys(entries).sort().reverse().slice(0,7);
-  if(!keys.length){
-    resp.innerHTML = '<span style="font-style:italic;color:var(--muted);">Aún no tienes entradas guardadas. Escribe algo hoy y vuelve a pedir guía. 🙏</span>';
-    return;
-  }
-
-  resp.innerHTML = '<span class="thinking">Leyendo tu camino reciente…</span>';
-
-  const resumen = keys.map(k => {
-    const e = entries[k];
-    const tags = (e.tags||[]).join(', ') || 'sin etiquetas';
-    const intenciones = (e.intentions||[]).filter(i=>i.text).map(i=>`${i.done?'✓':'○'} ${i.text}`).join(', ') || '';
-    return `Fecha: ${e.date}
-Mente: ${e.m}/10 | Emoción: ${e.e}/10 | Cuerpo: ${e.c}/10
-Emociones: ${tags}
-Texto: ${e.text || '(sin texto)'}
-${intenciones ? 'Intenciones: '+intenciones : ''}`;
-  }).join('\n\n---\n\n');
-
-  const prompt = `Eres una mentora budista sabia, compasiva y directa. Estás acompañando a una persona que está comenzando su camino espiritual desde cero. Esta persona viene de un período difícil: desempleo prolongado, relaciones dañadas, frialdad emocional, y está aprendiendo sobre budismo, meditación y autoconocimiento.
-
-Aquí están sus últimas entradas de diario (las más recientes primero):
-
-${resumen}
-
-Analiza con profundidad estas entradas y ofrece:
-1. Lo que ves en su proceso que quizás él/ella no puede ver desde adentro
-2. Un patrón emocional o mental que notes
-3. Una enseñanza budista breve y relevante a lo que está viviendo
-4. Una práctica concreta y pequeña para los próximos días
-
-Habla directamente a la persona, con calidez y sin condescendencia. Usa lenguaje sencillo. Máximo 250 palabras. No uses markdown, asteriscos ni listas con guiones — escribe en párrafos naturales.`;
-
-  fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1000,
-      messages: [{ role: "user", content: prompt }]
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    const text = data.content?.map(b => b.text||'').join('') || 'No pude conectar con la mentora en este momento. Intenta de nuevo. 🙏';
-    resp.innerHTML = text.replace(/\n\n/g,'</p><p style="margin-top:12px;">').replace(/^/,'<p>').replace(/$/,'</p>');
-  })
-  .catch(() => {
-    resp.innerHTML = '<span style="color:var(--muted);font-style:italic;">No se pudo conectar en este momento. Verifica tu conexión e intenta de nuevo. 🙏</span>';
-  });
-}
-
-function closeMentor(){
-  document.getElementById('mentor-modal').classList.remove('open');
-}
-// ── FIN MENTOR ─────────────────────────────────────────────
+setTenzinMode('analisis');
 </script>
 </body>
 </html>
